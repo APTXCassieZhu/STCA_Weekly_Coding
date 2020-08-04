@@ -1,3 +1,4 @@
+//   https://leetcode.com/discuss/interview-question/762546/
 public class WinFruit{
     public static int winFruit(String[][] codeList, String[] shoppingCart){
         if(codeList == null || codeList.length == 0)   
