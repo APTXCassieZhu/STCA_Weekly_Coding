@@ -1,4 +1,7 @@
-//   https://leetcode.com/discuss/interview-question/762546/
+/*
+   https://leetcode.com/discuss/interview-question/762546/
+   Amazon | OA 2020 | Amazon Fresh Promotion
+*/
 public class WinFruit{
     public static int winFruit(String[][] codeList, String[] shoppingCart){
         if(codeList == null || codeList.length == 0)   
@@ -16,7 +19,8 @@ public class WinFruit{
                 }    
             }else{
                 // restart to match
-                k = codeList[j][0].equals("anything") ? 1 : 0;
+                i = i - j;
+                k = 0;
             }
         }
         return 0;

@@ -1,4 +1,7 @@
-// https://leetcode.com/discuss/interview-question/356960
+/*  
+    https://leetcode.com/discuss/interview-question/356960
+    Amazon | OA 2019 | Find Pair With Given Sum
+*/
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +17,10 @@ public class FindPairs{
         int i = 0;
         for(int num : nums){
             if(map.containsKey(num)){
-                if(num > max || map.get(num) > max){
+                if(num > max || nums[map.get(num)] > max){
                     arr[0] = map.get(num);
                     arr[1] = i;
-                    max = Math.max(num, map.get(num));
+                    max = Math.max(num, nums[map.get(num)]);
                 }
             }
             map.put(target-num, i);
