@@ -4,7 +4,6 @@
 */
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class FindPairs{
     private static int diff = -30;

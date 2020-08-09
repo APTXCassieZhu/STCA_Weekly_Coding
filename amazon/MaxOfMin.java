@@ -2,8 +2,6 @@
     https://leetcode.com/discuss/interview-question/383669/
     Amazon | OA 2019 | Max Of Min Altitudes
 */
-import java.util.*;
-
 public class MaxOfMin{
     public static int FindMaxOfMin(int[][] map){
         if(map == null || map.length == 0)  return 0;
