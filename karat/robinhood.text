@@ -1,0 +1,22 @@
+1.  谷歌共享文档可以被多人同时访问编辑，现在有文档存在分布式的100台服务器上，已经有“负载均衡配置”，
+    问当用户量访问上升，performance会受到什么影响？
+
+    增长的用户会带的问题主要是 hashing collision，负载增加，
+    解决方案可以使增加 instance OR  improve load balanceing algorithm
+    followup，对于新增的instances，不改变之前已经在处理的process的ID，新增的process 均衡地allocate到不同instances上（新增的和旧的instances）
+
+2.  strong consistency vs eventual consistency
+    -Strong Consistency offers up-to-date data but at the cost of high latency.
+    -While Eventual consistency offers low latency but may reply to read requests with stale data since all nodes of the database may not have the updated data.
+    问下面三种分布式场景对应用哪一种模型，以及为什么？
+        第一个场景类似处理 Netflix 的 streaming data。
+            用 eventual consistency 因为是处理streaming data需要 low latency！
+        第二个场景是 数据统计要记录每个click， 类似 facebook like触发一下的功能。
+            用 eventual consistency 因为不需要 high latency，
+        第三个场景是 bank transaction
+            用 strong consistency, 因为transaction的 read data must always be up to date
+
+3. 一个共享文档需要很多个人签名，可能成百上千，公司会给这些需要签名人发邮件，但是分布式服务器宕机俩小时，只有50%发出去了，成功的record存在了100台机器里，
+    问怎么找到失败的重发？
+    Naive的方法是 traverse 100 server 并且不断更新 signed people set, 最后统一重发，
+    followup如何提高效率？用MapReduce并发处理，因为每一个server没有依赖关系。
