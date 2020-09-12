@@ -62,19 +62,20 @@ n: number of pairs in the input
 
 import java.util.*;
 
-public class FindMidpointCourses{
+public class MidpointCourses{
     public static List<String> getMidCourses(String[][] preCourses){
         Map<String, List<String>> courseGraph = new HashMap<>();
         Map<String, Integer> indegree = new HashMap<>();
         for(String[] preCourse : preCourses){
-            if(map.containsKey(preCourse[0])){
-                map.get(preCourse[0]).add(preCourse[1]);
+            if(courseGraph.containsKey(preCourse[0])){
+                courseGraph.get(preCourse[0]).add(preCourse[1]);
             }else{
                 List<String> cList = new ArrayList<>();
                 cList.add(preCourse[1]);
-                map.put(preCourse[0], preCourse[1]);
+                courseGraph.put(preCourse[0], cList);
             }
             indegree.put(preCourse[1], indegree.getOrDefault(preCourse[1], 0) + 1);
+            indegree.put(preCourse[0], indegree.getOrDefault(preCourse[0], 0));
         }
         // find root
         List<String> root = new ArrayList<>();
@@ -95,9 +96,10 @@ public class FindMidpointCourses{
         return new ArrayList<>(ans);
     }
 
-    private static void CreatePath(String cur, List<String> path, List<String, List<String>> courseGraph, Set<String> ans){
+    private static void CreatePath(String cur, List<String> path, Map<String, List<String>> courseGraph, Set<String> ans){
         if(!courseGraph.containsKey(cur)){
-            ans.add(path.get(path.size()/2));
+            int mid = path.size() % 2 == 0 ? (path.size()/2 - 1) : path.size()/2;
+            ans.add(path.get(mid));
         }else{
             for(String next : courseGraph.get(cur)){
                 path.add(next);
@@ -109,26 +111,12 @@ public class FindMidpointCourses{
 
     private static void forTest(List<String> ans){
         for(String str : ans)
-            System.out.print(str+" ");
+            System.out.println(str+" ");
     }
 
     public static void main(String[] args){
-        String[][] all_courses = {
-            {"Logic", "COBOL"},
-            {"Data Structures", "Algorithms"},
-            {"Creative Writing", "Data Structures"},
-            {"Algorithms", "COBOL"},
-            {"Intro to Computer Science", "Data Structures"},
-            {"Logic", "Compilers"},
-            {"Data Structures", "Logic"},
-            {"Creative Writing", "System Administration"},
-            {"Databases", "System Administration"},
-            {"Creative Writing", "Databases"},
-            {"Intro to Computer Science", "Graphics"},
-        };
-        getMidCourses(all_courses);  
-        System.out.println("aaaa");
-              
+        String[][] all_courses = {{"Logic", "COBOL"},{"Data Structures", "Algorithms"},{"Creative Writing", "Data Structures"},{"Algorithms", "COBOL"},{"Intro to Computer Science", "Data Structures"},{"Logic", "Compilers"},{"Data Structures", "Logic"},{"Creative Writing", "System Administration"},{"Databases", "System Administration"},{"Creative Writing", "Databases"},{"Intro to Computer Science", "Graphics"}};
+        forTest(getMidCourses(all_courses));  
     }
 }
  
