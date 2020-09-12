@@ -59,8 +59,10 @@ Complexity analysis variables:
 n: number of pairs in the input
 
 */
+
 import java.util.*;
-public class FindMidpointCourse{
+
+public class FindMidpointCourses{
     public static List<String> getMidCourses(String[][] preCourses){
         Map<String, List<String>> courseGraph = new HashMap<>();
         Map<String, Integer> indegree = new HashMap<>();
@@ -82,10 +84,51 @@ public class FindMidpointCourse{
             }
         }
         // find path
-
+        List<String> path;
+        Set<String> ans = new HashSet<>();
+        for(int i = 0; i < root.size(); i++){
+            path = new ArrayList<>();
+            String cur = root.get(i);
+            path.add(cur);
+            CreatePath(cur, path, courseGraph, ans);
+        }
+        return new ArrayList<>(ans);
     }
-    public static void main(String[] agrs){
 
+    private static void CreatePath(String cur, List<String> path, List<String, List<String>> courseGraph, Set<String> ans){
+        if(!courseGraph.containsKey(cur)){
+            ans.add(path.get(path.size()/2));
+        }else{
+            for(String next : courseGraph.get(cur)){
+                path.add(next);
+                CreatePath(next, path, courseGraph, ans);
+                path.remove(path.size() - 1);
+            }
+        }
+    }
+
+    private static void forTest(List<String> ans){
+        for(String str : ans)
+            System.out.print(str+" ");
+    }
+
+    public static void main(String[] args){
+        String[][] all_courses = {
+            {"Logic", "COBOL"},
+            {"Data Structures", "Algorithms"},
+            {"Creative Writing", "Data Structures"},
+            {"Algorithms", "COBOL"},
+            {"Intro to Computer Science", "Data Structures"},
+            {"Logic", "Compilers"},
+            {"Data Structures", "Logic"},
+            {"Creative Writing", "System Administration"},
+            {"Databases", "System Administration"},
+            {"Creative Writing", "Databases"},
+            {"Intro to Computer Science", "Graphics"},
+        };
+        getMidCourses(all_courses);  
+        System.out.println("aaaa");
+              
     }
 }
  
