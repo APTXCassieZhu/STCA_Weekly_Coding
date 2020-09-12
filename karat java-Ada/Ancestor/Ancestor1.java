@@ -1,12 +1,13 @@
 package Ancestor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
+//   1    2    3
+//  / \  /      \
+// 4    5        6
+//                 \
+//                  7
 //输入是 int[][] input, input[0]是input[1]的parent，比如 {{1,4}, {1,5}, {2,5}, {3,6}, {6,7}}会形成上面的图
+// output [1,2,3,4,5,6]
 //第一问是只有0个parents和只有1个parent的节点
 public class Ancestor1 {
     public static List<Integer> zeroOrOneAncestor(int[][] edges) {
@@ -14,12 +15,13 @@ public class Ancestor1 {
         if (edges == null || edges.length == 0)
             return result;
 
-        // Build a graph using a map
+        // Build a graph using a map (value is parent)
         Map<Integer, HashSet<Integer>> graph = new HashMap<>();
         for (int[] edge : edges) {
-            graph.putIfAbsent(edge[1], new HashSet<>());
             graph.putIfAbsent(edge[0], new HashSet<>());
-            graph.get(edge[1]).add(edge[0]);
+            HashSet<Integer> grandparent = new HashSet<>(graph.get(edge[0]));
+            grandparent.add(edge[0]);    
+            graph.putIfAbsent(edge[1], grandparent);        
         }
         // loop the keySet of the map, to find the nodes who has less or equal to 1
         // parent.
