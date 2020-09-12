@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ValidMatrix1",
+            "request": "launch",
+            "mainClass": "ValidMatrix.ValidMatrix1"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MeetingRoom2",
+            "request": "launch",
+            "mainClass": "Meeting.MeetingRoom2"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - OverlapCourse3",
+            "request": "launch",
+            "mainClass": "CourseSchedule.OverlapCourse3"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - OverlapCourse",
+            "request": "launch",
+            "mainClass": "CourseSchedule.OverlapCourse"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Ancestor1",
+            "request": "launch",
+            "mainClass": "Ancestor.Ancestor1"
+        }
+    ]
+}

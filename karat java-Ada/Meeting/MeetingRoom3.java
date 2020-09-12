@@ -22,4 +22,23 @@ public class MeetingRoom3 {
     // if no such MeetingRoom: return impossible
     // else: pop the room, add to heap2, mapping put(room, end time of this start
     // time), add to result
+    public int minMeetingRooms(Interval[] intervals) {
+        int[] starts = new int[intervals.length];
+        int[] ends = new int[intervals.length];
+        for(int i=0; i<intervals.length; i++) {
+            starts[i] = intervals[i].start;
+            ends[i] = intervals[i].end;
+        }
+        Arrays.sort(starts);
+        Arrays.sort(ends);
+        int rooms = 0;
+        int endsItr = 0;
+        for(int i=0; i<starts.length; i++) {
+            if(starts[i]<ends[endsItr])
+                rooms++;
+            else
+                endsItr++;
+        }
+        return rooms;
+    }
 }

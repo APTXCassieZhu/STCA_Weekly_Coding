@@ -3,68 +3,120 @@ package CourseSchedule;
 import java.util.*;
 
 public class OverlapCourse3 {
-    public static Set<String> halfWayLessons(String[][] courses) {
-        Set<String> result = new HashSet<>();
-        Map<String, Integer> inorder = new HashMap<>();
-        Map<String, List<String>> graph = new HashMap<>();
-        Map<String, Boolean> visited = new HashMap<>();
-
-        for (String[] course : courses) {
-            String source = course[0];
-            String des = course[1];
-            visited.put(source, false);
-            visited.put(des, false);
-            if (!graph.containsKey(source)) {
-                graph.put(source, new ArrayList<>());
+    public static List<String> getMidCourses(String[][] preCourses){
+        Map<String, List<String>> courseGraph = new HashMap<>();
+        Map<String, Integer> indegree = new HashMap<>();
+        for(String[] preCourse : preCourses){
+            if(courseGraph.containsKey(preCourse[0])){
+                courseGraph.get(preCourse[0]).add(preCourse[1]);
+            }else{
+                List<String> cList = new ArrayList<>();
+                cList.add(preCourse[1]);
+                courseGraph.put(preCourse[0], cList);
             }
-            if (!graph.containsKey(des)) {
-                graph.put(des, new ArrayList<>());
-            }
-            graph.get(source).add(des);
-            if (!inorder.containsKey(source)) {
-                inorder.put(source, 0);
-            }
-            inorder.put(des, inorder.getOrDefault(des, 0) + 1);
+            indegree.put(preCourse[1], indegree.getOrDefault(preCourse[1], 0) + 1);
+            indegree.put(preCourse[0], indegree.getOrDefault(preCourse[0], 0));
         }
-
-        for (String key : inorder.keySet()) {
-            if (inorder.get(key).equals(0)) {
-                LinkedList<String> temp = new LinkedList<>();
-                temp.add(key);
-                backtrack(key, graph, temp, result);
+        // find root
+        List<String> root = new ArrayList<>();
+        for(String key : indegree.keySet()){
+            if(indegree.get(key) == 0){
+                root.add(key);
             }
         }
-
-        return result;
+        // find path
+        List<String> path;
+        Set<String> ans = new HashSet<>();
+        for(int i = 0; i < root.size(); i++){
+            path = new ArrayList<>();
+            String cur = root.get(i);
+            path.add(cur);
+            CreatePath(cur, path, courseGraph, ans);
+        }
+        return new ArrayList<>(ans);
     }
 
-    public static void backtrack(String start, Map<String, List<String>> graph, List<String> temp, Set<String> result) {
-        int size = graph.get(start).size();
-        if (size == 0) {
-            result.add(temp.get((temp.size() + 1) / 2 - 1));
-            return;
+    private static void CreatePath(String cur, List<String> path, Map<String, List<String>> courseGraph, Set<String> ans){
+        if(!courseGraph.containsKey(cur)){
+            ans.add(path.get((path.size() + 1) / 2 - 1));
+        }else{
+            for(String next : courseGraph.get(cur)){
+                path.add(next);
+                CreatePath(next, path, courseGraph, ans);
+                path.remove(path.size() - 1);
+            }
         }
-        for (int i = 0; i < size; i++) {
-            String next = graph.get(start).get(i);
-            temp.add(next);
-            backtrack(next, graph, temp, result);
-            temp.remove(temp.size() - 1);
-        }
-
     }
 
-    public static void main(String[] args) {
-        String[][] all_courses = { { "Logic", "COBOL" }, { "Data Structures", "Algorithms" },
-                { "Creative Writing", "Data Structures" }, { "Algorithms", "COBOL" },
-                { "Intro to Computer Science", "Data Structures" }, { "Logic", "Compilers" },
-                { "Data Structures", "Logic" }, { "Creative Writing", "System Administration" },
-                { "Databases", "System Administration" }, { "Creative Writing", "Databases" },
-                { "Intro to Computer Science", "Graphics" } };
-        Set<String> result = halfWayLessons(all_courses);
-        System.out.println("[");
-        for (String c : result) {
-            System.out.println(c + ", ");
-        }
-        System.out.println("]");
+    private static void forTest(List<String> ans){
+        for(String str : ans)
+            System.out.println(str+" ");
+    }
+
+    public static void main(String[] args){
+        String[][] all_courses = {{"Logic", "COBOL"},{"Data Structures", "Algorithms"},{"Creative Writing", "Data Structures"},{"Algorithms", "COBOL"},{"Intro to Computer Science", "Data Structures"},{"Logic", "Compilers"},{"Data Structures", "Logic"},{"Creative Writing", "System Administration"},{"Databases", "System Administration"},{"Creative Writing", "Databases"},{"Intro to Computer Science", "Graphics"}};
+        forTest(getMidCourses(all_courses));  
     }
 }
+
+/*Students may decide to take different "tracks" or sequences of courses in the Computer Science curriculum. There may be more than one track that includes the same course, but each student follows a single linear track from a "root" node to a "leaf" node. In the graph below, their path always moves left to right.
+
+Write a function that takes a list of (source, destination) pairs, and returns the name of all of the courses that the students could be taking when they are halfway through their track of courses.
+
+Sample input:
+all_courses = [
+    ["Logic", "COBOL"],
+    ["Data Structures", "Algorithms"],
+    ["Creative Writing", "Data Structures"],
+    ["Algorithms", "COBOL"],
+    ["Intro to Computer Science", "Data Structures"],
+    ["Logic", "Compilers"],
+    ["Data Structures", "Logic"],
+    ["Creative Writing", "System Administration"],
+    ["Databases", "System Administration"],
+    ["Creative Writing", "Databases"],
+    ["Intro to Computer Science", "Graphics"],
+]
+
+Sample output (in any order):
+          ["Data Structures", "Creative Writing", "Databases", "Intro to Computer Science"]
+
+All paths through the curriculum (midpoint *highlighted*):
+
+*Intro to C.S.* -> Graphics
+Intro to C.S. -> *Data Structures* -> Algorithms -> COBOL
+Intro to C.S. -> *Data Structures* -> Logic -> COBOL
+Intro to C.S. -> *Data Structures* -> Logic -> Compiler
+Creative Writing -> *Databases* -> System Administration
+*Creative Writing* -> System Administration
+Creative Writing -> *Data Structures* -> Algorithms -> COBOL
+Creative Writing -> *Data Structures* -> Logic -> COBOL
+Creative Writing -> *Data Structures* -> Logic -> Compilers
+
+Visual representation:
+
+                    ____________
+                    |          |
+                    | Graphics |
+               ---->|__________|
+               |                          ______________
+____________   |                          |            |
+|          |   |    ______________     -->| Algorithms |--\     _____________
+| Intro to |   |    |            |    /   |____________|   \    |           |
+| C.S.     |---+    | Data       |   /                      >-->| COBOL     |
+|__________|    \   | Structures |--+     ______________   /    |___________|
+                 >->|____________|   \    |            |  /
+____________    /                     \-->| Logic      |-+      _____________
+|          |   /    ______________        |____________|  \     |           |
+| Creative |  /     |            |                         \--->| Compilers |
+| Writing  |-+----->| Databases  |                              |___________|
+|__________|  \     |____________|-\     _________________________
+               \                    \    |                       |
+                \--------------------+-->| System Administration |
+                                         |_______________________|
+
+Complexity analysis variables:
+
+n: number of pairs in the input
+
+*/

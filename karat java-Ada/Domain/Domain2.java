@@ -1,34 +1,42 @@
 package Domain;
-
+// 输出两个user的最长连续且相同的访问记录。
+// input
+// [
+//     ["3234.html", "xys.html", "7hsaa.html"], // user1
+//     ["3234.html", "sdhsfjdsh.html", "xys.html", "7hsaa.html"] // user2
+// ]
+// output
+// ["xys.html", "7hsaa.html"]
 public class Domain2 {
-    public static String[] LCS(String[] s1, String[] s2) {
-        if (s1 == null || s2 == null || s1.length == 0 || s2.length == 0) {
-            return new String[0];
+    public static String[] LCS(String[] history1, String[] history2) {
+        if (history1 == null || history2 == null || history1.length == 0 || history2.length == 0) {
+            return new String[]{};
         }
-        int l1 = s1.length;
-        int l2 = s2.length;
-        int max = 0;
-        int endIndex = -1;
-        int[][] dp = new int[l1 + 1][l2 + 1];
-        for (int i = 1; i <= l1; i++) {
-            for (int j = 1; j <= l2; j++) {
-                if (s1[i - 1].equals(s2[j - 1])) {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
-                    if (dp[i][j] > max) {
-                        max = dp[i][j];
-                        endIndex = i - 1;
+        int count = -1, index = -1;
+        // dp
+        int[] memo = new int[history2.length+1];
+        for(int i = 1; i <= history1.length; i++){
+            int prev = 0;
+            for(int j = 1; j <= history2.length; j++){
+                int tmp = memo[j];
+                if(history1[i-1].equals(history2[j-1])){
+                    memo[j] = prev + 1;
+                    if(count < memo[j]){
+                        count = memo[j];
+                        index = j-1;
                     }
                 }
+                prev = tmp;
             }
         }
-        if (max == 0)
-            return new String[0];
-        String[] result = new String[max];
-        int start = endIndex - max + 1;
-        for (int i = 0; i < max; i++) {
-            result[i] = s1[start++];
+        String[] ans = new String[count];
+        // find common
+        if(index != -1){
+            for(int i = count - 1; i>=0; i--){
+                ans[i] = history2[index--];
+            }
         }
-        return result;
+        return ans;
     }
 
     public static void main(String[] args) {

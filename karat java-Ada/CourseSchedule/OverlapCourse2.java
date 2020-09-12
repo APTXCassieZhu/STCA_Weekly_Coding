@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 // 输入{{A, B}, {C, D}, {B, C}, {E, F}, {D, E}, {F, G}}, 输出 D.
+// A -> B -> C -> D -> E -> F -> G   D is midpoint course
+// only one path
+// time complexity: O(n) space : O(n)
+
 public class OverlapCourse2 {
     public static char findMediumCourse(char[][] courses) {
         int[] count = new int[26];
@@ -13,6 +17,7 @@ public class OverlapCourse2 {
             count[course[1] - 'A']++;
             map.put(course[0], course[1]);
         }
+        // find root course
         char start = 'A';
         for (int i = 0; i < 26; i++) {
             if (count[i] == 1) {
