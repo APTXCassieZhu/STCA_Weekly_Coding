@@ -1,7 +1,7 @@
 1.  谷歌共享文档可以被多人同时访问编辑，现在有文档存在分布式的100台服务器上，已经有“负载均衡配置”，
     问当用户量访问上升，performance会受到什么影响？
 
-    增长的用户会带的问题主要是 hashing collision，负载增加，
+    增长的用户会带的问题主要是 hashing collision【 two distinct pieces of data have the same hash value】，负载增加，
     解决方案可以使增加 instance OR  improve load balanceing algorithm
     followup，对于新增的instances，不改变之前已经在处理的process的ID，新增的process 均衡地allocate到不同instances上（新增的和旧的instances）
 
