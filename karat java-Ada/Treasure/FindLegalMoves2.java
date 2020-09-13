@@ -1,5 +1,6 @@
 package Treasure;
-
+//给一个二维matrix，-1代表墙，0代表路。问给定一个起点坐标为0，是否能到达所有的0。 
+// time complexity O(n^2)   space O(n^2)
 public class FindLegalMoves2 {
     public static boolean FindLegalMoves(int[][] grid, int row, int col) {
         boolean[][] visited = new boolean[grid.length][grid[0].length];

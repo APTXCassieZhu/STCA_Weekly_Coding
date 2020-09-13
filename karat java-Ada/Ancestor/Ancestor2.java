@@ -33,15 +33,6 @@ public class Ancestor2 {
         return false;
     }
 
-    // Add the parents of a given node into a set
-    public static void findParents(int cur, HashSet<Integer> parents, Map<Integer, HashSet<Integer>> graph) {
-        for (int parent : graph.get(cur)) {
-            if (parents.add(parent)) {
-                findParents(parent, parents, graph);
-            }
-        }
-    }
-
     public static void main(String[] args) {
         int[][] edges = { { 1, 4 }, { 1, 5 }, { 2, 5 }, {2, 11}, { 3, 6 }, { 6, 7 }, { 3, 8 } };
         System.out.println(hasCommonAncestor(edges, 7, 8));

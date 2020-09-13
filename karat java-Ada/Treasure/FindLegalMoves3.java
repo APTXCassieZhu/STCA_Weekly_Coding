@@ -3,7 +3,7 @@ package Treasure;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+//board3 中1代表钻石，给出起点和终点，问有没有一条不走回头路的路线，能从起点走到终点，并拿走所有的钻石，给出所有的最短路径。
 public class FindLegalMoves3 {
     public static List<List<int[]>> findShortestPaths(int[][] grid, int[] start, int[] end) {
         if (grid == null || grid.length == 0 || grid[0].length == 0)
@@ -44,6 +44,7 @@ public class FindLegalMoves3 {
         if (temp == 1)
             treasure--;
         path.offer(new int[] { row, col });
+        // check if reached end
         if (row == end[0] && col == end[1] && treasure == 0) {
             result.add(new ArrayList<>(path));
             grid[row][col] = temp;
@@ -56,7 +57,6 @@ public class FindLegalMoves3 {
             }
             grid[row][col] = temp;
             path.removeLast();
-
         }
     }
 
