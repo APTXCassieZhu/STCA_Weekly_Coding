@@ -3,7 +3,7 @@ package Meeting;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-// calculate spare time of meeting room
+// calculate spare time of meeting room in a day
 public class MeetingRoom2 {
     public static List<int[]> spareTime(int[][] meetings) {
         Arrays.sort(meetings, ((a, b) -> a[0] - b[0]));
