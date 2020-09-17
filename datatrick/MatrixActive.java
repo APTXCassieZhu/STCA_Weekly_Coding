@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class MatrixActive{
-    public static long[] matrixQueris(int n, int m, int[][] queries){
+    public static long[] matrixQueries(int n, int m, int[][] queries){
         int[] inactiveRow = new int[n+1];
         int[] inactiveCol = new int[m+1];
         List<Long> ans = new ArrayList<>();
@@ -21,7 +21,7 @@ public class MatrixActive{
         long[] result = new long[ans.size()];
         for(int i = 0; i < ans.size(); i++){
             result[i] = ans.get(i);
-            //System.out.println(result[i]);
+            System.out.println(result[i]);
         }
         return result;
     }
@@ -34,9 +34,35 @@ public class MatrixActive{
         }
         return -1;
     }
+    public static long[] matrixQueries1(int n, int m, int[][] queries) {
+        long[] res = new long[queries.length];
+        TreeSet<Long> set = new TreeSet<>();
 
+        for (long i = 0; i < n; i++) {
+            for (long j = 0; j < m;j++) {
+                set.add((i + 1)*(j + 1));
+            }
+        }
+
+        int k = 0;
+        for (int[] q: queries) {
+            if (q[0] == 1) {
+                for (long j = 0; j < m; j++)
+                    set.remove((long)(q[1]) * (j + 1));
+            } else if (q[0] == 2) {
+                for (long i = 0; i < n; i++)
+                    set.remove((long)(q[1]) * (i + 1));
+            } else if(q[0] == 0){
+                res[k] = set.first();
+                System.out.println(res[k]);
+            }
+            k++;
+        }
+
+        return res;
+    }
     public static void main(String[] args){
         int[][] queries = new int[][]{{0}, {1,2}, {0}, {2,1}, {0}, {1,1}, {0}};
-        matrixQueris(3, 4, queries);
+        matrixQueries(3, 4, queries);
     }
 }
