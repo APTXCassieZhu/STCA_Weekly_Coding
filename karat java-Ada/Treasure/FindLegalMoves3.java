@@ -10,6 +10,7 @@ public class FindLegalMoves3 {
             return new ArrayList<>();
         List<List<int[]>> temp = new ArrayList<>();
         int[][] directions = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+        // count all treasure
         int treasure = 0;
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {

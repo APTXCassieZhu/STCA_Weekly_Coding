@@ -23,7 +23,6 @@ public class MeetingRoom2 {
     }
 
     private static List<int[]> mergeMeeting(int[][] meetings) {
-
         List<int[]> result = new ArrayList<>();
         int[] curMeeting = meetings[0];
         for (int[] meeting : meetings) {

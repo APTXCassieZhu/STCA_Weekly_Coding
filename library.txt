@@ -1,0 +1,18 @@
+Leavey Library                  34.021721   -118.282817
+Accounting Library              34.019186   -118.285533
+Science Engineering Library   34.019610   -118.288789
+Hoose Library of Philosophy     34.018690   -118.286609
+Wilson Dental Library           34.023966   -118.286234
+Gaughan Tiberti Library       34.018669   -118.282495
+Doheny Memorial Library         34.020042   -118.283751
+East Asian Library              34.020140   -118.283738
+Cinematic Arts Library          34.020079   -118.283539
+Special Collections             34.019945   -118.283592
+Gerontology Library             34.020192   -118.283729
+Law Library                     34.018672   -118.284274   
+Tommy Trojan                    34.020560   -118.285447 
+
+Helen Topping Architecture Library
+34.019185   -118.288023
+VKC
+34.021264   -118.284031

@@ -21,7 +21,6 @@ public class Ancestor2 {
             HashSet<Integer> grandparent = new HashSet<>(graph.get(edge[0]));
             grandparent.add(edge[0]);
             graph.get(edge[1]).addAll(grandparent);   
-            
         }
         HashSet<Integer> parent1 = graph.get(x);
         HashSet<Integer> parent2 = graph.get(y);

@@ -1,0 +1,32 @@
+---------------------------------------- Capital -----------------------------------------
+Input format和去年的invoice一模一样，今年是三个API：CREATE， PROCESS，PAY，每个parameter用&隔开。
+Capital是个借贷系统， Create是创建贷款，pay是还贷款，process是每次进行一笔交易会按照一定比例扣除交易额来还贷款（比如我借钱来开店，卖出去一个200的东西，其中10%也就是20块自动还款）
+Sample input大概长这样
+CREATE: id=amy&amount=1000&percent=10&fee=100 (amy借了1000，要付100的费用，每笔交易10%抽来还钱）
+PROCESS: id=amy&amount=200（卖出来200的东西，200*10%=20，欠款从1100变成1080）
+PAY: id=amy&amount=900 （直接还钱900，还欠180）
+最后要output欠款信息和Capital收了多少费用： amy，180  100（Capital只收了100的费用）
+
+同一个人可以无限create， 每个create都有独立的percentage，还欠的时候优先oldest，直到还完，开始还第二老的。
+还钱优先还fee，所以只要有还钱的history，stripe就会收到fee
+-------------------------------------------------------------------------------------------
+------------------------------------------ 主观题 ------------------------------------------
+加一个refund的功能怎么加，会有什么问题
+-------------------------------------------------------------------------------------------
+------------------------------------ Stripe in a box --------------------------------------
+four actions: charge / confirm / refund / payout
+charge 后面是refund 或者 confirm
+    refund corresponding charge action's amount
+    confirm  approve the corresponding charge
+stripe 2% process fee
+
+HashMap<Card_Network, process_fee_percentage> map       // 2 <= map size <= 5
+M = # of actions                                        // 0 <= M <= 100
+action format:
+    /charge?network=<CARD_NETWORK>&amount=<AMOUNT>&merchant_id=<MERCHANT_ID>&charge_id=<CHARGE_ID>
+    /payout?merchant_id=<MERCHANT_ID>
+    /confirm?charge_id=<CHARGE_ID>
+    /refund?charge_id=<CHARGE_ID>
+output
+    merchantID, payout balance(round up)
+-------------------------------------------------------------------------------------------

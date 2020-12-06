@@ -9,6 +9,9 @@ import java.util.*;
 //输入是 int[][] input, input[0]是input[1]的parent，比如 {{1,4}, {1,5}, {2,5}, {3,6}, {6,7}}会形成上面的图
 // output [1,2,3,4,5,6]
 //第一问是只有0个parents和只有1个parent的节点
+// idea : create map, which key is the child, value is the list of its ancestor
+//        then go over key set of map, find out result
+// time complexity O(n) space complexity 
 public class Ancestor1 {
     public static List<Integer> zeroOrOneAncestor(int[][] edges) {
         List<Integer> result = new ArrayList<>();

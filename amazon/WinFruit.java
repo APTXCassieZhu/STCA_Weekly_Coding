@@ -1,32 +1,43 @@
 /*
    https://leetcode.com/discuss/interview-question/762546/
    Amazon | OA 2020 | Amazon Fresh Promotion
+   two pointer
+   subsequence
 */
 public class WinFruit{
     public static int winFruit(String[][] codeList, String[] shoppingCart){
-        if(codeList == null || codeList.length == 0)   
+        // checking corner cases
+        if(codeList == null || codeList.length == 0)
             return 1;
-        if(shoppingCart == null || shoppingCart.length == 0)   
+        if(shoppingCart == null || shoppingCart.length == 0)
             return 0;
-        int j = 0, k = 0;
-        for(int i=0; i<shoppingCart.length; i++){
-            if(j == codeList.length)    return 1;
-            if(shoppingCart[i].equals(codeList[j][k]) || codeList[j][k].equals("anything")){
-                k++;
-                if(k == codeList[j].length){
-                    j++;
-                    k = 0;
-                }    
-            }else{
-                // restart to match
-                i = i - j;
-                k = 0;
+
+        int i = 0, j = 0;
+        //int codeLen = codeList[i].length;
+        while (i < codeList.length && j + codeList[i].length <= shoppingCart.length) {
+            boolean match = true;
+            for (int k = 0; k < codeList[i].length; k++) {
+                if (!codeList[i][k].equals("anything") && !shoppingCart[j+k].equals(codeList[i][k])) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                j += codeList[i].length;
+                i++;
+            } else {
+                j++;
             }
         }
-        return 0;
+        return (i == codeList.length) ? 1 : 0;
     }
 
-    public static void main(String[] args){
+    public static void test(String[][] codeList, String[] shoppingCart, int expect) {
+        System.out.println(winFruit(codeList, shoppingCart) == expect);
+    }
+
+    public static void main(String[] args) {
+        // test cases
         String[][] codeList1 = { { "apple", "apple" }, { "banana", "anything", "banana" } };
         String[] shoppingCart1 = {"orange", "apple", "apple", "banana", "orange", "banana"};
         String[][] codeList2 = { { "apple", "apple" }, { "banana", "anything", "banana" } };
@@ -41,12 +52,20 @@ public class WinFruit{
         String[] shoppingCart6 = {"apple", "apple", "orange", "orange", "banana", "apple", "banana", "banana"};
         String[][] codeList7= { { "anything", "apple" }, { "banana", "anything", "banana" }  };
         String[] shoppingCart7 = {"orange", "grapes", "apple", "orange", "orange", "banana", "apple", "banana", "banana"};
-        System.out.println(winFruit(codeList1, shoppingCart1));
-        System.out.println(winFruit(codeList2, shoppingCart2));
-        System.out.println(winFruit(codeList3, shoppingCart3));
-        System.out.println(winFruit(codeList4, shoppingCart4));
-        System.out.println(winFruit(codeList5, shoppingCart5));
-        System.out.println(winFruit(codeList6, shoppingCart6));
-        System.out.println(winFruit(codeList7, shoppingCart7));
+        String[][] codeList8 = {{"apple", "orange"}, {"orange", "banana", "orange"}};
+        String[] shoppingCart8 = {"apple", "orange", "banana", "orange", "orange", "banana", "orange", "grape"};
+        String[][] codeList9= { { "anything", "anything", "anything", "apple" }, { "banana", "anything", "banana" }  };
+        String[] shoppingCart9 = {"orange", "apple", "banana", "orange", "apple", "orange", "orange", "banana", "apple", "banana"};
+
+        // test
+        test(codeList1, shoppingCart1, 1);
+        test(codeList2, shoppingCart2, 0);
+        test(codeList3, shoppingCart3, 0);
+        test(codeList4, shoppingCart4, 0);
+        test(codeList5, shoppingCart5, 1);
+        test(codeList6, shoppingCart6, 1);
+        test(codeList7, shoppingCart7, 1);
+        test(codeList8, shoppingCart8, 1);
+        test(codeList9, shoppingCart9, 1);
     }
 }
